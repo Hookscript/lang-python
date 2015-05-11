@@ -1,0 +1,14 @@
+#!/bin/sh
+
+# Compile a file named 'source' (in the current directory) which contains the
+# script's source code into a file named 'compiled' (also in the current
+# directory) which can be executed each time the script is run.
+#
+# Languages without a natural compilation step should at least check syntax
+# as much as possible.
+#
+# If compilation fails, exit with code 1.
+# If compilation succeeds, exit with code 0.
+# Append error messages to a file named 'log' (in the current directory).
+
+echo todo
