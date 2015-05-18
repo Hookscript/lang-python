@@ -11,4 +11,4 @@
 # If compilation succeeds, exit with code 0.
 # Append error messages to a file named 'log' (in the current directory).
 
-echo todo
+cp source compiled

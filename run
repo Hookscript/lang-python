@@ -9,4 +9,4 @@
 # Content appended to a file named 'log' (in the current directory) appears
 # in the script's request log.
 
-echo todo
+python3 compiled
