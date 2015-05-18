@@ -8,29 +8,6 @@ from http.server import BaseHTTPRequestHandler
 from pprint import pprint
 from werkzeug.wrappers import Request, Response
 
-# build request and response object
-response = Response( content_type = 'text/plain' )
-
-# capture anything printed to stdout
-printed_content = io.StringIO()
-sys.stdout = printed_content
-
-# redirect stderr to the log file
-sys.stderr = open('log', 'at')
-
-# final clean up before interpreter exits
-def onexit():
-    response.data = printed_content.getvalue()
-
-    with open('response', 'wt') as out:
-        print('HTTP/1.1 %s' % response.status, file=out)
-        for k,v in response.headers:
-            print('%s: %s' % (k,v), file=out)
-        print('', file=out)
-        print(response.data.decode(), file=out, end='')
-atexit.register(onexit)
-
-
 # exception thrown when parsing an invalid HTTP request
 class MalformedHTTPRequest(Exception):
     def __init__(self,code,message):
@@ -94,17 +71,24 @@ class HTTPRequest(BaseHTTPRequestHandler):
         return env
 
 
-def parse_request(file):
-    req = HTTPRequest(file)
-    return req
+# build request and response object
+response = Response( content_type = 'text/plain' )
 
-# env = parse_request(sys.argv[1]).wsgi_environ()
-# pprint(env)
-#
-# req = Request(env)
-# pprint(req)
-#
-# print(req.path)
-# print(req.url)
-# print(req.args)
-# print(req.form)
+# capture anything printed to stdout
+printed_content = io.StringIO()
+sys.stdout = printed_content
+
+# redirect stderr to the log file
+sys.stderr = open('log', 'at')
+
+# final clean up before interpreter exits
+def onexit():
+    response.data = printed_content.getvalue()
+
+    with open('response', 'wt') as out:
+        print('HTTP/1.1 %s' % response.status, file=out)
+        for k,v in response.headers:
+            print('%s: %s' % (k,v), file=out)
+        print('', file=out)
+        print(response.data.decode(), file=out, end='')
+atexit.register(onexit)
