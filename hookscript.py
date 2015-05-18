@@ -72,6 +72,8 @@ class HTTPRequest(BaseHTTPRequestHandler):
 
 
 # build request and response object
+wsgi_env = HTTPRequest('request').wsgi_environ()
+request = Request(wsgi_env)
 response = Response( content_type = 'text/plain' )
 
 # capture anything printed to stdout
