@@ -6,7 +6,10 @@ import sys
 
 from http.server import BaseHTTPRequestHandler
 from pprint import pprint
-from werkzeug.wrappers import Request
+from werkzeug.wrappers import Request, Response
+
+# build request and response object
+response = Response( content_type = 'text/plain' )
 
 # capture anything printed to stdout
 printed_content = io.StringIO()
@@ -17,14 +20,14 @@ sys.stderr = open('log', 'at')
 
 # final clean up before interpreter exits
 def onexit():
-    content = printed_content.getvalue()
+    response.data = printed_content.getvalue()
+
     with open('response', 'wt') as out:
-        print('HTTP/1.1 200 OK', file=out)
-        print('Server: python pretend', file=out)
-        print('Content-Length: %d' % len(content), file=out)
-        print('Content-Type: text/plain', file=out)
+        print('HTTP/1.1 %s' % response.status, file=out)
+        for k,v in response.headers:
+            print('%s: %s' % (k,v), file=out)
         print('', file=out)
-        print(content, file=out, end='')
+        print(response.data.decode(), file=out, end='')
 atexit.register(onexit)
 
 
