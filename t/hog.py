@@ -1,6 +1,6 @@
 from hookscript import request
 
-resource = request.values.get('resource')
+resource = request.values['resource']
 if resource == 'cpu':
     while True:
         pass

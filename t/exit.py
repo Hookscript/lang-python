@@ -1,7 +1,7 @@
 from hookscript import request
 import sys
 
-x = request.values.get('try')
+x = request.values['try']
 if x == '1':
     raise Exception('Try %s' % x)
 elif x == '2':
