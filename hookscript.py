@@ -2,6 +2,7 @@
 
 import atexit
 import io
+import os.path
 import sys
 
 from http.server import BaseHTTPRequestHandler
@@ -76,6 +77,12 @@ wsgi_env = HTTPRequest('request').wsgi_environ()
 request = Request(wsgi_env)
 response = Response( content_type = 'text/plain' )
 
+# reconstruct persistent state
+state = None
+if os.path.isfile('state'):
+    state_text = open('state','rt').read()
+    state = eval(state_text)
+
 # capture anything printed to stdout
 printed_content = io.StringIO()
 sys.stdout = printed_content
@@ -85,6 +92,9 @@ sys.stderr = open('log', 'at')
 
 # final clean up before interpreter exits
 def onexit():
+    # save persistent state
+    with open('state','wt') as state_file:
+        pprint(state,stream=state_file)
 
     # generate HTTP response
     response.data = printed_content.getvalue()
