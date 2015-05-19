@@ -85,8 +85,9 @@ sys.stderr = open('log', 'at')
 
 # final clean up before interpreter exits
 def onexit():
-    response.data = printed_content.getvalue()
 
+    # generate HTTP response
+    response.data = printed_content.getvalue()
     with open('response', 'wt') as out:
         print('HTTP/1.1 %s' % response.status, file=out)
         for k,v in response.headers:
