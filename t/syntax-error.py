@@ -1,0 +1,3 @@
+import hookscript
+
+x =
