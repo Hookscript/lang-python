@@ -14,5 +14,6 @@ elif resource == 'disk':
         print('junk', file=f)
 elif resource == 'output':
     i = 1000000
-    while i--:
-        print 'junk'
+    while i > 0:
+        print('junk')
+        i -= 1
