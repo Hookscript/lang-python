@@ -1,4 +1,7 @@
-FROM some-docker/repository:1.2.3
+FROM python:3.4.3-wheezy
+
+# add our library
+ADD hookscript.py /usr/local/lib/python3.4/
 
 # add build scripts
 ADD compile /bin/
